@@ -9,7 +9,14 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
-
+//var socket = require("socket.io")(server).of("/");
+//attach socket to middleware, so we can get it in request
+app.use(function(req, res, next){
+    //get io from module
+    var io = require("./io.js");
+    req.io = io;
+    next();
+});
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -25,50 +32,56 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.get("/page1", function(req, res){
-    var socket = req.socket;
-    //server listen msg from A
-    socket.on("A", function(msgFromA){
-        console.log("msgFromA: ", msgFromA);
-        //sau do emit cho B
-        socket.emit("B", msgFromA);
-    });
-    //server listen msg from B
-    socket.on("B", function(msgFromB){
-        console.log("msgFromB: ", msgFromB);
-        //sau do emit cho A
-        socket.emit("A", msgFromB);
+    var io = req.io;
+    io.on("connection", function(socket){
+        //server listen msg from A
+        socket.on("A", function(msgFromA){
+           console.log("msgFromA: ", msgFromA);
+           //sau do emit cho B
+           socket.emit("B", msgFromA);
+        });
+        //server listen msg from B
+        socket.on("B", function(msgFromB){
+           console.log("msgFromB: ", msgFromB);
+           //sau do emit cho A
+           socket.emit("A", msgFromB);
+        });
     });
     res.render("pageX", {title: "page1"});
 });
 app.get("/page2", function(req, res){
-    var socket = req.socket;
-    //server listen msg from A
-    socket.on("A", function(msgFromA){
-        console.log("msgFromA: ", msgFromA);
-        //sau do emit cho B
-        socket.emit("C", msgFromA);
-    });
-    //server listen msg from B
-    socket.on("C", function(msgFromC){
-        console.log("msgFromC: ", msgFromC);
-        //sau do emit cho A
-        socket.emit("A", msgFromC);
+    var io = req.io;
+    io.on("connection", function(socket){
+        //server listen msg from A
+        socket.on("A", function(msgFromA){
+            console.log("msgFromA: ", msgFromA);
+            //sau do emit cho B
+            socket.emit("C", msgFromA);
+        });
+        //server listen msg from B
+        socket.on("C", function(msgFromC){
+            console.log("msgFromC: ", msgFromC);
+            //sau do emit cho A
+            socket.emit("A", msgFromC);
+        });
     });
     res.render("pageX", {title: "page2"});
 });
 app.get("/page3", function(req, res){
-    var socket = req.socket;
-    //server listen msg from A
-    socket.on("A", function(msgFromA){
-        console.log("msgFromA: ", msgFromA);
-        //sau do emit cho B
-        socket.emit("D", msgFromA);
-    });
-    //server listen msg from B
-    socket.on("D", function(msgFromD){
-        console.log("msgFromD: ", msgFromD);
-        //sau do emit cho A
-        socket.emit("A", msgFromD);
+    var io = req.io;
+    io.on("connection", function(socket){
+        //server listen msg from A
+        socket.on("A", function(msgFromA){
+            console.log("msgFromA: ", msgFromA);
+            //sau do emit cho B
+            socket.emit("D", msgFromA);
+        });
+        //server listen msg from B
+        socket.on("D", function(msgFromD){
+            console.log("msgFromD: ", msgFromD);
+            //sau do emit cho A
+            socket.emit("A", msgFromD);
+        });
     });
     res.render("pageX", {title: "page3"});
 });

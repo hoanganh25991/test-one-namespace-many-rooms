@@ -27,14 +27,11 @@ var server = http.createServer(app);
 /**
  * SETUP SOCKET IO
  */
-var socketIO = require("socket.io");
-var io = socketIO(server);
-var socket = io.of("/");
-//var socket = require("socket.io")(server).of("/");
-//attach socket to middleware, so we can get it in request
-app.use(function(req, res, next){
-    req.socket = socket;
-    next();
+var io = require("../io.js");
+io.attach(server);
+
+io.on("connection", function(socket){
+    console.log("socket.id: ", socket.id);
 });
 server.listen(port);
 server.on('error', onError);

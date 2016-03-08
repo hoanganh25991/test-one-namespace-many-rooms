@@ -1,0 +1,2 @@
+Cannot read property 'on' of undefined at D:\work-station\test-one-namespace-many-rooms\app.js:38:11
+>>>>ở server side, không thể hiểu socket, io.socket???, io.on("connection", function(socket){}), có nghĩa là server mở io lên đợi ở đó, mỗi client vào là 1 socket với server, có id riêng, lúc này mới handle socket theo kiểu server/client, vì 1 server nhưng có rất nhiều client, io.on("connection", function(SOCKET)) chỉ rõ socket chính là client nào đang contact với server>>>>

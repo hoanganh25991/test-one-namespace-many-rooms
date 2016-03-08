@@ -2,14 +2,16 @@ var socket;
 window.onload = function(){
     socket = io();
     //use socket directly
-    //A send msg to C
-    var msg = {
-        socketID: socket.id,
-        from: "A",
-        to: "C",
-        date: new Date().getTime().toString()
-    };
-    socket.emit("C", JSON.stringify(msg));
+    setInterval(function(){
+        //A send msg to C
+        var msg = {
+            socketID: socket.id,
+            from: "A",
+            to: "C",
+            date: new Date().getSeconds().toString()
+        };
+        socket.emit("C", JSON.stringify(msg));
+    }, 5000);
     //A listen to msg from C
     socket.on("A", function(msgFromC){
         console.log("msgFromC: ", msgFromC);
@@ -21,8 +23,8 @@ window.onload = function(){
             socketID: "fake msg from C",
             from: "C",
             to: "A",
-            date: new Date().getTime().toString()
+            date: new Date().getSeconds().toString()
         };
         socket.emit("A",JSON.stringify(msg));
-    }, 2000);
+    }, 5000);
 };
