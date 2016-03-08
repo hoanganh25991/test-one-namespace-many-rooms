@@ -1,0 +1,8 @@
+1. express generate ra đầy đủ framework
+1-a. setup socket
+2. app.get quan trọng, gồm page1, page2, page3, mỗi page tương ứng thằng A gửi cho B/C/D
+	>ở server-side, socket sẽ on("a")//lắng nghe xem ở client thằng A muốn chat cái gì
+	>ở server-side, socket sẽ on("b")//lắng nghe xem b chat gì với A gửi lại cho nó
+3. mỗi page1,2,3 có public/javascripts/pageX.js riêng, client-side socket
+	>ở client-side, ngược với server, A gửi msg, socket.emit("b"), gửi kèm socketID
+	>ở client-side, ngược với server, A nghe msg từ B, xem B nó chat gì, socket.on("a")

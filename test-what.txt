@@ -1,0 +1,3 @@
+1. ở client-side, sau khi lấy `socket`, gọi trực tiếp socket.on("room-name"), thay vì io.on("connection"). Vì ý nghĩa thực sự là socket, chứ không phải io, io.of(namespace) >>> socket's instance
+2. mở lắng nghe ở socket nhiều lần, on("room-A"), ở một page khác on("room-A), nhưng xử lý khác nhau, hỏi có dẫn đến coflict không? Mỗi lần client-side gọi socket.on("room-X"), thực sự ý nghĩa là gì bên trong socket, 1 namespace, many virtual-rooms? 1 điểm mạnh của socket phải không?
+3. check socket-id ở mỗi page khác nhau, trên cùng 1 client, vì (server, client)-socket-connection không phụ thuộc page(request URL), 1 port trên client đã được mở kết nối với server, socket IO còn handle cả fallback khi browser không hỗ trợ websocket > ajax > normal-request
